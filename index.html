@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+       <h1>Weather Dashboard</h1>
+       <div class="input-section">
+           <h2>Enter City Name</h2>
+           <textarea id="cityname" class="city-input" placeholder="Enter city"></textarea>
+           <div class="button-group">
+               <button id="curr-btn">Get Current Weather</button>
+               <button id="week-btn">Get 5-Day Forecast</button>
+           </div>
+           <p id="res">Weather data will appear here...</p>
+       </div>
+       <canvas id="weatherChart" width="800" height="400"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
