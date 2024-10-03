@@ -1,19 +1,30 @@
 const apikey = "094a99116cb5eeaa1ceb6f345298f200";
 const apiurl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
 
-function getWeatherData() {
-    const city = document.getElementById("cityname").value;
-    if (city === "") {
-        document.getElementById("res").innerText = "Please enter a city name";
-        return;
-    }
-
+function getWeatherData(city) {
     const currurl = `${apiurl}${city}&appid=${apikey}`;
 
     fetch(currurl)
         .then(response => response.json())
         .then(data => {
             if (data.cod === 200) {
+                const temperature = data.main.temp;
+                const feelsLike = data.main.feels_like;
+                const humidity = data.main.humidity;
+                const pressure = data.main.pressure;
+                const windSpeed = data.wind.speed;
+                const weather = data.weather[0].main;
+
+                document.getElementById("currentWeather").innerHTML = `
+                    <h3>Current Weather in ${city}</h3>
+                    <p>Temperature: ${temperature} °C</p>
+                    <p>Feels Like: ${feelsLike} °C</p>
+                    <p>Humidity: ${humidity}%</p>
+                    <p>Pressure: ${pressure} hPa</p>
+                    <p>Wind Speed: ${windSpeed} m/s</p>
+                    <p>Weather: ${weather}</p>
+                `;
+
                 const latitude = data.coord.lat;
                 const longitude = data.coord.lon;
 
@@ -40,7 +51,10 @@ function getWeatherData() {
                                     const feelsLikeTemp = forecast.main.feels_like;
                                     const humidity = forecast.main.humidity;
 
-                                    dates.push(dateTime.split(" ")[0]);
+                                    const date = new Date(dateTime);
+                                    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+
+                                    dates.push(dayOfWeek);
                                     temperatures.push(temperature);
                                     pressures.push(pressure);
                                     windSpeeds.push(windSpeed);
@@ -49,7 +63,6 @@ function getWeatherData() {
                                 }
                             }
 
-                            document.getElementById("res").innerText = `Weather forecast for ${city}`;
                             showCharts();
                             createChart('temperatureChart', dates, temperatures, 'Temperature (°C)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
                             createChart('pressureChart', dates, pressures, 'Pressure (hPa)', 'rgba(54, 162, 235, 1)', 'rgba(54, 162, 235, 0.2)');
@@ -115,9 +128,39 @@ function createChart(canvasId, labels, data, label, borderColor, backgroundColor
 }
 
 function showCharts() {
-    document.querySelectorAll('.chart-container').forEach(chart => {
+    document.querySelectorAll('.chart-card').forEach(chart => {
         chart.style.display = 'block';
     });
 }
 
-document.getElementById("curr-btn").addEventListener("click", getWeatherData);
+function fetchWeatherByLocation(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    const locationUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apikey}`;
+
+    fetch(locationUrl)
+        .then(response => response.json())
+        .then(data => {
+            getWeatherData(data.name);
+        })
+        .catch(error => {
+            console.error("Error fetching weather data:", error);
+            document.getElementById("res").innerText = "Error fetching weather data";
+        });
+}
+
+// Get user's current location
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(fetchWeatherByLocation, (error) => {
+        console.error("Error getting location:", error);
+        document.getElementById("res").innerText = "Unable to retrieve location";
+    });
+} else {
+    document.getElementById("res").innerText = "Geolocation is not supported by this browser.";
+}
+
+document.getElementById("curr-btn").addEventListener("click", () => {
+    const city = document.getElementById("cityname").value;
+    getWeatherData(city);
+});

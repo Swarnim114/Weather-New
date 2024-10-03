@@ -3,42 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Dashboard</title>
+    <title>Weather and Forecast</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Weather Dashboard</h1>
-        <div class="input-section">
-            <h2>Enter City Name</h2>
-            <textarea id="cityname" class="city-input" placeholder="Enter city"></textarea>
-            <div class="button-group">
-                <button id="curr-btn">Get Weather</button>
-            </div>
-            <p id="res">Weather data will appear here...</p>
+        <div class="search-container">
+            <input type="text" id="cityname" placeholder="Enter city name" />
+            <button id="curr-btn">Get Weather</button>
         </div>
 
-        <!-- Charts will be hidden initially -->
-        <div class="chart-container" id="temperatureChart-container" style="display: none;">
-            <h3>Temperature</h3>
-            <canvas id="temperatureChart" width="800" height="400"></canvas>
+        <div class="row">
+            <!-- First row: Current weather and two charts -->
+            <div class="card" id="currentWeather"></div>
+            <div class="card chart-card">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+            <div class="card chart-card">
+                <canvas id="pressureChart"></canvas>
+            </div>
         </div>
-        <div class="chart-container" id="pressureChart-container" style="display: none;">
-            <h3>Pressure</h3>
-            <canvas id="pressureChart" width="800" height="400"></canvas>
-        </div>
-        <div class="chart-container" id="windSpeedChart-container" style="display: none;">
-            <h3>Wind Speed</h3>
-            <canvas id="windSpeedChart" width="800" height="400"></canvas>
-        </div>
-        <div class="chart-container" id="feelsLikeChart-container" style="display: none;">
-            <h3>Feels Like</h3>
-            <canvas id="feelsLikeChart" width="800" height="400"></canvas>
-        </div>
-        <div class="chart-container" id="humidityChart-container" style="display: none;">
-            <h3>Humidity</h3>
-            <canvas id="humidityChart" width="800" height="400"></canvas>
+
+        <div class="row">
+            <!-- Second row: The rest of the charts -->
+            <div class="card chart-card">
+                <canvas id="windSpeedChart"></canvas>
+            </div>
+            <div class="card chart-card">
+                <canvas id="feelsLikeChart"></canvas>
+            </div>
+            <div class="card chart-card">
+                <canvas id="humidityChart"></canvas>
+            </div>
         </div>
     </div>
 
