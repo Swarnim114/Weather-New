@@ -3,12 +3,12 @@ body {
     background-color: #121212;
     color: #ffffff;
     text-align: center;
-    padding: 20px;
+    padding: 0px;
     margin: 0;
 }
 
 .container {
-    max-width: 90%;
+    max-width: 100%;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -90,3 +90,37 @@ img {
         width: 100%;
     }
 }
+.chart-container {
+    margin-top: 20px;
+    display: none; /* Hidden initially */
+}
+
+#forecast-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between cards */
+    padding: 1rem;
+}
+
+.forecast {
+    background-color: rgba(0, 0, 0, 0.8); /* Card background color */
+    border-radius: 8px;
+    padding: 1rem;
+    width: 18%; /* Adjust width as per your design */
+    color: #ffffff;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Card shadow effect */
+}
+
+.forecast img {
+    width: 50px;
+    height: 50px;
+}
+
+@media (max-width: 768px) {
+    .forecast {
+        width: 100%; /* Make cards full-width on smaller screens */
+    }
+}
+
